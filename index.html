@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>二向箔 · 把太阳系画进画里</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div id="stage"></div>
+  <div id="labels"></div>
+
+  <header id="brand">
+    <h1>二向箔</h1>
+    <p>DUAL VECTOR FOIL · 太阳系二维化模拟</p>
+  </header>
+
+  <section id="telemetry" class="glass">
+    <div><span>经过时间</span><b id="tm-t">T+ 00:00</b></div>
+    <div><span>二维平面半径</span><b id="tm-r">0.00 AU</b></div>
+    <div><span>前沿扩张速度</span><b id="tm-v">0.000 c</b></div>
+    <div><span>时间流速</span><b id="tm-rate">—</b></div>
+    <div class="bar"><i id="tm-vbar"></i></div>
+  </section>
+
+  <aside id="bodies" class="glass"></aside>
+
+  <div id="caption"></div>
+
+  <footer id="controls" class="glass">
+    <button id="btn-play" class="pill primary" title="播放 / 暂停">暂停</button>
+    <div id="timeline">
+      <div id="ticks"></div>
+      <input id="scrub" type="range" min="0" max="21" step="0.001" value="0" />
+    </div>
+    <div class="seg" id="speed">
+      <button data-s="0.5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button>
+    </div>
+    <button id="btn-director" class="pill on" title="自动运镜；拖动画面即切换为自由视角">导演镜头</button>
+    <button id="btn-top" class="pill">俯瞰画卷</button>
+    <button id="btn-info" class="pill">原理</button>
+    <button id="btn-reset" class="pill">重置</button>
+  </footer>
+
+  <section id="intro">
+    <div class="intro-inner">
+      <p class="kicker">《三体Ⅲ · 死神永生》中的降维打击</p>
+      <h2>二向箔</h2>
+      <p class="lead">一张被力场封装的二维空间碎片。<br />当封装解除，它接触到的三维空间将失去一个维度——<br />整个太阳系，会被画进一幅厚度为零的画。</p>
+      <button id="btn-start" class="pill primary big">解除封装力场</button>
+      <p class="hint">拖动旋转 · 滚轮缩放 · 点击左侧天体可跟随</p>
+    </div>
+  </section>
+
+  <section id="info" class="glass hidden">
+    <button id="info-close" class="close">×</button>
+    <h3>二向箔如何把世界画进画里</h3>
+    <ol>
+      <li><b>封装的二维空间。</b>二向箔本身就是一小片二维空间，被力场包裹着与三维世界隔开，所以它看起来只是一张发着柔光的小纸条，没有质量、没有厚度。</li>
+      <li><b>维度跌落。</b>力场一旦撤去，它周围三维空间中的一个维度开始从宏观蜷缩进微观。空间自己向平面“流”下去，像瀑布落入深渊，带着其中的一切物质。</li>
+      <li><b>加速扩张，趋近光速。</b>二维平面的边缘不断向外扩张并持续加速。坍缩区内的逃逸速度等于光速——只有以光速飞行的飞船才逃得掉。</li>
+      <li><b>无损展开。</b>三维物体并不是被“压扁”，而是每一个三维细节都在二维上铺开。一颗球体的同心壳层变成同心圆环：内核在画的中心，地幔、地壳、海洋和大气一圈圈向外，像树的年轮。所以二维化的天体比原来大得多。</li>
+      <li><b>发光。</b>三维物质落入二维时把多余的能量以光的形式放出，画的边缘在“作画”时格外明亮。</li>
+    </ol>
+    <h4>这个模拟用了哪些公式</h4>
+    <ul>
+      <li>前沿做相对论性匀加速（双曲运动）：<code>R(t) = c²/a · (√(1+(at/c)²) − 1)</code>，<code>v(t) = at / √(1+(at/c)²)</code>，速度逼近而永不超过 <code>c</code>。取 a = 0.5 AU/h² ≈ 5772 m/s²。</li>
+      <li>天体被球形坍缩前沿追上的时刻由 <code>R(t) = 距离</code> 反解；之后沿平面法向按同样形式的公式跌落。</li>
+      <li>展开映射：球体没入深度 d 时，已落入体积为球冠 <code>V = πd²(3r−d)/3</code>，二维画的面积与之成正比；半径占比 ρ 的壳层落在画上半径 <code>s = ρ^(3/2)</code> 处（面积 s² ↔ 体积 ρ³）。</li>
+      <li>轨道距离、公转与自转周期、自转轴倾角、光速均为真实值；每一粒尘埃和每条轨道线都在显卡上用同一组公式实时求解。</li>
+    </ul>
+    <h4>为了看得见做的取舍</h4>
+    <ul>
+      <li>天体大小被放大了数百到上千倍（按真实比例它们连一个像素都不到），月球轨道也相应放大；天体穿过平面的过程因此被相应拉长。</li>
+      <li>二向箔是小说设定，“固有加速度”“跌落加速度”的取值是本模拟的假设；时间流速会在关键时刻自动放慢。</li>
+    </ul>
+  </section>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
